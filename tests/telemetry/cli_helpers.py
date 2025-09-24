@@ -1,4 +1,5 @@
 import json
+import re
 from tests.common.reboot import reboot
 
 
@@ -62,3 +63,45 @@ def check_reboot_cause_history(duthost, output):
 
     failure_message = "show result {} != output {} for SHOW/reboot-cause/history path".format(result_map, output)
     assert result_map == output, failure_message
+
+
+def get_valid_interface(duthost):
+    interfaces = duthost.get_interfaces_status()
+    pattern = re.compile(r'^Ethernet\d+$')
+    for name, st in interfaces.items():
+        if pattern.match(name) and st.get("oper") == "up" and st.get("admin") == "up":
+            return name
+    return "Ethernet0"
+
+
+def get_period_value(duthost):
+    return "5"
+
+
+def get_group_value(duthost):
+    return "BAD"
+
+
+def get_counter_type_value(duthost):
+    return "PORT_INGRESS_DROPS"
+
+
+def get_rif_portchannel(duthost):
+    fallback_portchannel = "PortChannel101"
+
+    res = duthost.config_facts(host=duthost.hostname, source="running")
+    if not res or "ansible_facts" not in res:
+        return fallback_portchannel
+
+    facts = res["ansible_facts"]
+    if not facts or "PORTCHANNEL_INTERFACE" not in facts:
+        return fallback_portchannel
+
+    pc_intf = facts["PORTCHANNEL_INTERFACE"]
+    if not isinstance(pc_intf, dict) or not pc_intf:
+        return fallback_portchannel
+
+    first_key = next(iter(pc_intf))
+    base = first_key.split("|", 1)[0]
+    return base if base else fallback_portchannel
+
