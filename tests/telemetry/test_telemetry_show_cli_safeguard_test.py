@@ -25,7 +25,7 @@ argumentMap = {
     "IPV6ADDRESS_PREFIX":        helper.get_ipv6_prefix,
     "IPV6_BGP_NEIGHBOR_ARG":     helper.get_ipv6_bgp_neighbor_arguments,
     "IPV6ADDRESS_PREFIX_FAMILY": helper.get_ipv6_prefix_family,
-    "IPV6_ROUTE_ARG":            helper.get_ipv6_route_args,
+    "IPV6_ROUTE_ARG":            helper.get_ipv6_route_arguments,
     #"SID":                       helper.get_sid, (TODO: Since lab devices wont have SRV6 data we cannot provide SID)
 }
 
@@ -297,7 +297,7 @@ def test_show_cli_schema_and_safeguard(
     commands_tested_lines = ["Commands tested: ({} total):".format(len(commands_tested))]
     for commands in commands_tested:
         commands_tested_lines.append(commands)
-        logger.info(f"{commands_tested_lines}")
+    logger.info(f"{commands_tested_lines}")
 
     if failures:
         lines = ["Failures summary ({} total):".format(len(failures))]

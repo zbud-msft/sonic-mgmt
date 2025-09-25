@@ -120,7 +120,7 @@ def get_ipv6_prefix(duthost):
 
 
 def get_ipv6_bgp_neighbor_arguments(duthost):
-    return ["route", "advertised-routes", "received-routes"]
+    return ["routes", "advertised-routes", "received-routes"]
 
 
 def get_ipv6_prefix_family(duthost):
@@ -128,7 +128,7 @@ def get_ipv6_prefix_family(duthost):
 
 
 def get_ipv6_bgp_network_arguments(duthost):
-    return ["betpath", "longer-prefixes", "multipath"]
+    return ["bestpath", "longer-prefixes", "multipath"]
 
 
 def get_ipv6_route_arguments(duthost):
