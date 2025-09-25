@@ -5,13 +5,22 @@ from tests.common.reboot import reboot
 
 
 def get_json_from_gnmi_output(stdout):
-    marker_pos = stdout.find("The GetResponse is below")
-    start_pos = stdout.find("{", marker_pos)
+    marker = "The GetResponse is below"
+    marker_pos = stdout.find(marker)
+    assert marker_pos != -1, "GetResponse marker not found"
 
-    assert start_pos > 0, "JSON not found in GetResponse"
+    # Support both object and array JSON roots
+    obj_pos = stdout.find("{", marker_pos)
+    arr_pos = stdout.find("[", marker_pos)
+
+    if obj_pos == -1 and arr_pos == -1:
+        raise AssertionError("JSON not found in GetResponse")
+
+    start_pos = obj_pos if arr_pos == -1 else arr_pos if obj_pos == -1 else min(obj_pos, arr_pos)
 
     decoder = json.JSONDecoder()
-    obj, _ = decoder.raw_decode(stdout[start_pos:])
+    payload = stdout[start_pos:].lstrip()
+    obj, _ = decoder.raw_decode(payload)
     return obj
 
 
