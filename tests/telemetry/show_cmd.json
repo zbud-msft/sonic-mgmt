@@ -111,7 +111,7 @@
     "path": "show interfaces alias",
     "required_args": [],
     "optional_args": ["INTERFACE_NAME"],
-    "options": [],
+    "options": ["SONIC_CLI_IFACE_MODE"],
     "schema": {
       "shape": "object_map",
       "required_keys": ["alias"],
@@ -218,7 +218,7 @@
   {
     "path": "show interfaces description",
     "required_args": [],
-    "optional_args": ["TODO"],
+    "optional_args": ["INTERFACE_NAME"],
     "options": [],
     "schema": {
       "shape": "array",
@@ -229,7 +229,7 @@
   },
   {
     "path": "show interfaces errors",
-    "required_args": ["TODO"],
+    "required_args": ["INTERFACE_NAME"],
     "optional_args": [],
     "options": [],
     "schema": {
@@ -242,7 +242,7 @@
   {
     "path": "show interfaces fec status",
     "required_args": [],
-    "optional_args": ["TODO"],
+    "optional_args": ["INTERFACE_NAME"],
     "options": [],
     "schema": {
       "shape": "array",
@@ -254,8 +254,8 @@
   {
     "path": "show interfaces flap",
     "required_args": [],
-    "optional_args": ["TODO"],
-    "options": [],
+    "optional_args": ["INTERFACE_NAME"],
+    "options": ["SONIC_CLI_IFACE_MODE"],
     "schema": {
       "shape": "array",
       "required_keys": [],
@@ -266,8 +266,8 @@
   {
     "path": "show interfaces neighbor expected",
     "required_args": [],
-    "optional_args": ["TODO"],
-    "options": [],
+    "optional_args": ["INTERFACE_NAME"],
+    "options": ["SONIC_CLI_IFACE_MODE"],
     "schema": {
       "shape": "array",
       "required_keys": [],
@@ -279,7 +279,7 @@
     "path": "show interfaces naming_mode",
     "required_args": [],
     "optional_args": [],
-    "options": [],
+    "options": ["SONIC_CLI_IFACE_MODE"],
     "schema": {
       "shape": "object_keys",
       "required_keys": [],
@@ -291,7 +291,7 @@
     "path": "show interfaces portchannel",
     "required_args": [],
     "optional_args": [],
-    "options": [],
+    "options": ["SONIC_CLI_IFACE_MODE"],
     "schema": {
       "shape": "array",
       "required_keys": [],
@@ -302,7 +302,7 @@
   {
     "path": "show interfaces status",
     "required_args": [],
-    "optional_args": ["TODO"],
+    "optional_args": ["INTERFACE_NAME"],
     "options": [],
     "schema": {
       "shape": "array",
@@ -315,7 +315,7 @@
     "path": "show interfaces switchport config",
     "required_args": [],
     "optional_args": [],
-    "options": [],
+    "options": ["SONIC_CLI_IFACE_MODE"],
     "schema": {
       "shape": "object_map",
       "required_keys": [],
@@ -327,7 +327,7 @@
     "path": "show interfaces switchport status",
     "required_args": [],
     "optional_args": [],
-    "options": [],
+    "options": ["SONIC_CLI_IFACE_MODE"],
     "schema": {
       "shape": "object_map",
       "required_keys": [],
@@ -338,7 +338,7 @@
   {
     "path": "show interfaces transceiver error-status",
     "required_args": [],
-    "optional_args": ["TODO"],
+    "optional_args": ["INTERFACE_NAME"],
     "options": [],
     "schema": {
       "shape": "array",
@@ -350,7 +350,7 @@
   {
     "path": "show interfaces transceiver presence",
     "required_args": [],
-    "optional_args": ["TODO"],
+    "optional_args": ["INTERFACE_NAME"],
     "options": [],
     "schema": {
       "shape": "array",
@@ -362,7 +362,7 @@
   {
     "path": "show interfaces transceiver lpmode",
     "required_args": [],
-    "optional_args": ["TODO"],
+    "optional_args": ["INTERFACE_NAME"],
     "options": [],
     "schema": {
       "shape": "array",
@@ -372,9 +372,22 @@
     "validateSchema": false
   },
   {
+    "path": "show interfaces transceiver status",
+    "required_args": [],
+    "optional_args": ["INTERFACE_NAME"],
+    "options": ["SONIC_CLI_IFACE_MODE"],
+    "schema": {
+      "shape": "array",
+      "required_keys": [],
+      "required_map_keys": []
+    },
+    "validateSchema": false
+  },
+
+  {
     "path": "show ipv6 bgp neighbors",
     "required_args": [],
-    "optional_args": ["TODO", "TODO"],
+    "optional_args": ["IPV6ADDRESS", "TODO"],
     "options": [],
     "schema": {
       "shape": "object_map",
@@ -386,7 +399,7 @@
   {
     "path": "show ipv6 bgp network",
     "required_args": [],
-    "optional_args": ["TODO", "TODO"],
+    "optional_args": ["IPV6ADDRESS", "IPV6_BGP_NETWORK_OPTION"],
     "options": [],
     "schema": {
       "shape": "object_map",
