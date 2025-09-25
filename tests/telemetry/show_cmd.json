@@ -336,9 +336,33 @@
     "validateSchema": false
   },
   {
+    "path": "show interfaces transceiver eeprom",
+    "required_args": [],
+    "optional_args": [],
+    "options": ["dom"],
+    "schema": {
+      "shape": "array",
+      "required_keys": [],
+      "required_map_keys": []
+    },
+    "validateSchema": false
+  },
+  {
     "path": "show interfaces transceiver error-status",
     "required_args": [],
     "optional_args": ["INTERFACE_NAME"],
+    "options": [],
+    "schema": {
+      "shape": "array",
+      "required_keys": [],
+      "required_map_keys": []
+    },
+    "validateSchema": false
+  },
+  {
+    "path": "show interfaces transceiver info",
+    "required_args": [],
+    "optional_args": [""],
     "options": [],
     "schema": {
       "shape": "array",
@@ -372,6 +396,18 @@
     "validateSchema": false
   },
   {
+    "path": "show interfaces transceiver pm",
+    "required_args": [],
+    "optional_args": ["INTERFACE_NAME"],
+    "options": [],
+    "schema": {
+      "shape": "array",
+      "required_keys": [],
+      "required_map_keys": []
+    },
+    "validateSchema": false
+  },
+  {
     "path": "show interfaces transceiver status",
     "required_args": [],
     "optional_args": ["INTERFACE_NAME"],
@@ -387,7 +423,7 @@
   {
     "path": "show ipv6 bgp neighbors",
     "required_args": [],
-    "optional_args": ["IPV6ADDRESS", "TODO"],
+    "optional_args": ["IPV6NEIGHBOR", "IPV6_BGP_NEIGHBOR_ARG"],
     "options": [],
     "schema": {
       "shape": "object_map",
@@ -399,7 +435,7 @@
   {
     "path": "show ipv6 bgp network",
     "required_args": [],
-    "optional_args": ["IPV6ADDRESS", "IPV6_BGP_NETWORK_OPTION"],
+    "optional_args": ["IPV6ADDRESS_PREFIX", "IPV6_BGP_NETWORK_ARG"],
     "options": [],
     "schema": {
       "shape": "object_map",
@@ -423,7 +459,7 @@
   {
     "path": "show ipv6 fib",
     "required_args": [],
-    "optional_args": ["TODO"],
+    "optional_args": ["IPV6ADDRESS_PREFIX"],
     "options": [],
     "schema": {
       "shape": "array",
@@ -457,6 +493,18 @@
     "validateSchema": false
   },
   {
+    "path": "show ipv6 prefix-list",
+    "required_args": [],
+    "optional_args": ["IPV6ADDRESS_PREFIX_FAMILY"],
+    "options": [],
+    "schema": {
+      "shape": "array",
+      "required_keys": [],
+      "required_map_keys": []
+    },
+    "validateSchema": false
+  },
+  {
     "path": "show ipv6 protocol",
     "required_args": [],
     "optional_args": [],
@@ -471,7 +519,7 @@
   {
     "path": "show ipv6 route",
     "required_args": [],
-    "optional_args": ["TODO"],
+    "optional_args": ["IPV6_ROUTE_ARG"],
     "options": [],
     "schema": {
       "shape": "array",
@@ -483,7 +531,7 @@
   {
     "path": "show lldp neighbors",
     "required_args": [],
-    "optional_args": ["TODO"],
+    "optional_args": ["INTERFACE_NAME"],
     "options": [],
     "schema": {
       "shape": "array",
@@ -541,6 +589,19 @@
     "validateSchema": false
   },
   {
+    "path": "show ndp",
+    "required_args": [],
+    "optional_args": ["IPV6ADDRESS_PREFIX"],
+    "options": ["interface_vlan"],
+    "schema": {
+      "shape": "object_keys",
+      "required_keys": [],
+      "required_map_keys": []
+    },
+    "validateSchema": false
+  },
+ 
+  {
     "path": "show processes",
     "required_args": [],
     "optional_args": [],
@@ -577,10 +638,22 @@
     "validateSchema": false
   },
   {
+    "path": "show processes cpu",
+    "required_args": [],
+    "optional_args": [],
+    "options": [],
+    "schema": {
+      "shape": "array",
+      "required_keys": [],
+      "required_map_keys": []
+    },
+    "validateSchema": false
+  },
+  {
     "path": "show queue counters",
     "required_args": [],
-    "optional_args": ["TODO"],
-    "options": [],
+    "optional_args": ["INTERFACE_NAME"],
+    "options": ["nonzero", "all", "trim"],
     "schema": {
       "shape": "object_map",
       "required_keys": [],
@@ -591,7 +664,19 @@
   {
     "path": "show queue wredcounters",
     "required_args": [],
-    "optional_args": ["TODO"],
+    "optional_args": ["INTERFACE_NAME"],
+    "options": ["nonzero"],
+    "schema": {
+      "shape": "object_map",
+      "required_keys": [],
+      "required_map_keys": []
+    },
+    "validateSchema": false
+  },
+  {
+    "path": "show queue watermark",
+    "required_args": [],
+    "optional_args": [],
     "options": [],
     "schema": {
       "shape": "object_map",
@@ -626,6 +711,18 @@
   },
   {
     "path": "show queue watermark multicast",
+    "required_args": [],
+    "optional_args": [],
+    "options": [],
+    "schema": {
+      "shape": "object_map",
+      "required_keys": [],
+      "required_map_keys": []
+    },
+    "validateSchema": false
+  },
+  {
+    "path": "show queue persistent-watermark",
     "required_args": [],
     "optional_args": [],
     "options": [],
@@ -673,18 +770,6 @@
     "validateSchema": false
   },
   {
-    "path": "show ipv6 prefix-list",
-    "required_args": [],
-    "optional_args": ["TODO"],
-    "options": [],
-    "schema": {
-      "shape": "array",
-      "required_keys": [],
-      "required_map_keys": []
-    },
-    "validateSchema": false
-  },
-  {
     "path": "show reboot-cause",
     "required_args": [],
     "optional_args": [],
@@ -723,7 +808,7 @@
   {
     "path": "show srv6 stats",
     "required_args": [],
-    "optional_args": ["TODO"],
+    "optional_args": ["SID"],
     "options": [],
     "schema": {
       "shape": "object_map",
