@@ -26,7 +26,7 @@ argumentMap = {
     "IPV6_BGP_NEIGHBOR_ARG":     helper.get_ipv6_bgp_neighbor_arguments,
     "IPV6ADDRESS_PREFIX_FAMILY": helper.get_ipv6_prefix_family,
     "IPV6_ROUTE_ARG":            helper.get_ipv6_route_args,
-    "SID":                       helper.get_sid,
+    #"SID":                       helper.get_sid, (TODO: Since lab devices wont have SRV6 data we cannot provide SID)
 }
 
 # Options (lowercase keys) -> (type, cli-name, getter)
@@ -83,6 +83,8 @@ def option_value_lists(option_keys, duthost):
             lists.append([f"--{oname}"])
         else:  # kv
             vals = getter(duthost) if getter else []
+            if not vals:
+                continue
             lists.append([f"--{oname}={v}" for v in vals])
     return lists
 
@@ -181,7 +183,11 @@ def test_show_cli_schema_and_safeguard(
                 if not getter:
                     invalid_arg = arg
                     break
-                required_arg_values.append(getter(duthost))
+                value = getter(duthost)
+                if not value:
+                    invalid_arg = arg
+                    break
+                required_arg_values.append(value)
             if invalid_arg:
                 failures.append({
                     "cli": path,

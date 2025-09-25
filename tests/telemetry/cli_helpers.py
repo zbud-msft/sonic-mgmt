@@ -1,5 +1,6 @@
 import json
 import re
+import ipaddress
 from tests.common.reboot import reboot
 
 
@@ -70,24 +71,24 @@ def get_valid_interface(duthost):
     pattern = re.compile(r'^Ethernet\d+$')
     for name, st in interfaces.items():
         if pattern.match(name) and st.get("oper") == "up" and st.get("admin") == "up":
-            return name
-    return "Ethernet0"
+            return [name]
+    return None
 
 
 def get_period_value(duthost):
-    return "5"
+    return ["5"]
 
 
 def get_group_value(duthost):
-    return "BAD"
+    return ["BAD"]
 
 
 def get_counter_type_value(duthost):
-    return "PORT_INGRESS_DROPS"
+    return ["PORT_INGRESS_DROPS"]
 
 
 def get_rif_portchannel(duthost):
-    fallback_portchannel = "PortChannel101"
+    fallback_portchannel = ["PortChannel101"]
 
     res = duthost.config_facts(host=duthost.hostname, source="running")
     if not res or "ansible_facts" not in res:
@@ -103,5 +104,39 @@ def get_rif_portchannel(duthost):
 
     first_key = next(iter(pc_intf))
     base = first_key.split("|", 1)[0]
-    return base if base else fallback_portchannel
+    return [base] if base else fallback_portchannel
 
+
+def get_ipv6_neighbor(duthost):
+    bgp_facts = duthost.get_bgp_neighbors()
+    for k, v in list(bgp_facts.items()):
+        if v['state'] == 'established' and ipaddress.ip_address(k).version == 6:
+            return [k]
+    return None
+
+
+def get_ipv6_prefix(duthost):
+    return ["::/0"]
+
+
+def get_ipv6_bgp_neighbor_arguments(duthost):
+    return ["route", "advertised-routes", "received-routes"]
+
+
+def get_ipv6_prefix_family(duthost):
+    return ["LOCAL_VLAN_IPV6_PREFIX", "PL_LoopbackV6"]
+
+
+def get_ipv6_bgp_network_arguments(duthost):
+    return ["betpath", "longer-prefixes", "multipath"]
+
+
+def get_ipv6_route_arguments(duthost):
+    return ["bgp", "nexthop-group", "::/0"]
+
+
+def get_interface_vlan(duthost):
+    vlan_intfs = duthost.get_vlan_intfs()
+    if len(vlan_intfs) == 0:
+        return None
+    return [vlan_intfs[0]]

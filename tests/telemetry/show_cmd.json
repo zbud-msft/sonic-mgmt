@@ -808,7 +808,7 @@
   {
     "path": "show srv6 stats",
     "required_args": [],
-    "optional_args": ["SID"],
+    "optional_args": [],
     "options": [],
     "schema": {
       "shape": "object_map",
