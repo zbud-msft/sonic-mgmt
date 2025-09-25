@@ -303,4 +303,5 @@ def test_show_cli_schema_and_safeguard(
         lines = ["Failures summary ({} total):".format(len(failures))]
         for f in failures:
             lines.append(f"cli='{f['cli']}' xpath='{f['xpath']}' reason={f['reason']}")
+        logger.info(f"{lines}")
         pytest.fail("\n".join(lines))
