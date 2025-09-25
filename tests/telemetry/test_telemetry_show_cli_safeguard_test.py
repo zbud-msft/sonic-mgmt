@@ -18,20 +18,31 @@ BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 SHOW_CMD_FILE = os.path.join(BASE_DIR, "show_cmd.json")
 
 argumentMap = {
-    "INTERFACE_NAME":       helper.get_valid_interface,
-    "RIF_PORTCHANNEL":      helper.get_rif_portchannel,
-    "IPV6_ADDRESSS":        helper.get_ipv6_address,
-    "IPV6_BGP_NETWORK_ARG": helper.get_ipv6_bgp_network_arguments,
+    "INTERFACE_NAME":            helper.get_valid_interface,
+    "RIF_PORTCHANNEL":           helper.get_rif_portchannel,
+    "IPV6NEIGHBOR":              helper.get_ipv6_neighbor,
+    "IPV6_BGP_NETWORK_ARG":      helper.get_ipv6_bgp_network_arguments,
+    "IPV6ADDRESS_PREFIX":        helper.get_ipv6_prefix,
+    "IPV6_BGP_NEIGHBOR_ARG":     helper.get_ipv6_bgp_neighbor_arguments,
+    "IPV6ADDRESS_PREFIX_FAMILY": helper.get_ipv6_prefix_family,
+    "IPV6_ROUTE_ARG":            helper.get_ipv6_route_args,
+    "SID":                       helper.get_sid,
 }
 
 # Options (lowercase keys) -> (type, cli-name, getter)
 # type: "flag" => --name ; "kv" => --name=value
 optionMap = {
-    "period":       ("kv",   "period",   helper.get_period_value),
-    "printall":     ("flag", "printall", None),
-    "group":        ("kv",   "group",    helper.get_group_value),
-    "counter_type": ("kv", "counter_type", helper.get_counter_type_value),
-    "interface":    ("kv", "interface", helper.get_valid_interface),
+    "period":               ("kv",   "period",   helper.get_period_value),
+    "printall":             ("flag", "printall", None),
+    "group":                ("kv",   "group",    helper.get_group_value),
+    "counter_type":         ("kv", "counter_type", helper.get_counter_type_value),
+    "interface":            ("kv", "interface", helper.get_valid_interface),
+    "SONIC_CLI_IFACE_MODE": ("flag", "SONIC_CLI_IFACE_MODE", None),
+    "nonzero":              ("flag", "nonzero", None),
+    "all":                  ("flag", "all", None),
+    "trim":                 ("flag", "trim", None),
+    "dom":                  ("flag", "dom", None),
+    "interface_vlan":       ("kv", "iface", helper.get_interface_vlan),
 }
 
 def powerset(iterable):

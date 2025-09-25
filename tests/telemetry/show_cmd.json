@@ -362,7 +362,7 @@
   {
     "path": "show interfaces transceiver info",
     "required_args": [],
-    "optional_args": [""],
+    "optional_args": [],
     "options": [],
     "schema": {
       "shape": "array",
