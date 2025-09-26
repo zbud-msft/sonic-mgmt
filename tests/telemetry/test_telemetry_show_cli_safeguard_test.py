@@ -4,6 +4,7 @@ import logging
 import itertools
 import shlex
 import pytest
+import time
 
 import cli_helpers as helper
 from telemetry_utils import generate_client_cli
