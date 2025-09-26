@@ -149,3 +149,7 @@ def get_interface_vlan(duthost):
     if len(vlan_intfs) == 0:
         return None
     return [vlan_intfs[0]]
+
+
+def get_iface_mode(duthost):
+    return ["alias"]

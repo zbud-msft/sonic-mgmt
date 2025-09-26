@@ -37,7 +37,7 @@ optionMap = {
     "group":                ("kv",   "group",    helper.get_group_value),
     "counter_type":         ("kv", "counter_type", helper.get_counter_type_value),
     "interface":            ("kv", "interface", helper.get_valid_interface),
-    "SONIC_CLI_IFACE_MODE": ("flag", "SONIC_CLI_IFACE_MODE", None),
+    "SONIC_CLI_IFACE_MODE": ("flag", "SONIC_CLI_IFACE_MODE", helper.get_iface_mode),
     "nonzero":              ("flag", "nonzero", None),
     "all":                  ("flag", "all", None),
     "trim":                 ("flag", "trim", None),
@@ -146,6 +146,17 @@ def validate_schema(shape, required_keys, required_map_keys, payload):
 
     return False, f"unknown shape '{shape}'"
 
+def gnmi_get_with_retry(ptfhost, cmd, retries=3):
+    res = {"rc": 1, "stdout": "", "stderr": ""}
+    for i in range(max(1, retries)):
+        res = ptfhost.shell(cmd, module_ignore_errors=True)
+        if res.get("rc", 1) == 0:
+            return res
+        logger.info(f"Retrying gNMI Get (attempt {i+1}/{retries}) for: {cmd}")
+        time.sleep(1)
+    return res
+
+
 @pytest.mark.parametrize('setup_streaming_telemetry', [False], indirect=True)
 def test_show_cli_schema_and_safeguard(
     duthosts,
@@ -253,7 +264,7 @@ def test_show_cli_schema_and_safeguard(
                         xpath=xpath,
                         target="SHOW"
                     )
-                    ptf_result = ptfhost.shell(cmd, module_ignore_errors=True)
+                    ptf_result = gnmi_get_with_retry(ptfhost, cmd)
                     rc = ptf_result.get("rc", 1)
                     stdout = ptf_result.get("stdout", "")
                     stderr = ptf_result.get("stderr", "")
