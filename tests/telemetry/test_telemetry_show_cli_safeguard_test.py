@@ -5,6 +5,7 @@ import itertools
 import shlex
 import pytest
 import time
+import re
 
 import cli_helpers as helper
 from telemetry_utils import generate_client_cli
@@ -38,7 +39,7 @@ optionMap = {
     "group":                ("kv",   "group",    helper.get_group_value),
     "counter_type":         ("kv", "counter_type", helper.get_counter_type_value),
     "interface":            ("kv", "interface", helper.get_valid_interface),
-    "SONIC_CLI_IFACE_MODE": ("flag", "SONIC_CLI_IFACE_MODE", helper.get_iface_mode),
+    "SONIC_CLI_IFACE_MODE": ("kv", "SONIC_CLI_IFACE_MODE", None),
     "nonzero":              ("flag", "nonzero", None),
     "all":                  ("flag", "all", None),
     "trim":                 ("flag", "trim", None),
@@ -76,13 +77,21 @@ def build_show_cli_tokens(base_path, positional_args, option_tokens):
     parts.extend(option_tokens)
     return " ".join(parts)
 
-def option_value_lists(option_keys, duthost):
+def option_value_lists(option_keys, duthost, arguments):
     lists = []
+    last_arg = arguments[-1] if arguments else None
     for key in option_keys:
+
         otype, oname, getter = optionMap[key]
         if otype == "flag":
             lists.append([f"--{oname}"])
         else:  # kv
+            if key == "SONIC_CLI_IFACE_MODE":
+                if last_arg and re.match(r"^Ethernet\d+$", last_arg):
+                    lists.append([f"--{oname}=default"])
+                else:
+                    lists.append([f"--{oname}=alias"])
+                continue
             vals = getter(duthost) if getter else []
             if not vals:
                 continue
@@ -237,7 +246,7 @@ def test_show_cli_schema_and_safeguard(
 
         for argument_combination in argument_combinations:
             try:
-                per_option_lists = option_value_lists(options, duthost) if options else []
+                per_option_lists = option_value_lists(options, duthost, argument_combination) if options else []
             except (KeyError, ValueError) as e:
                 failures.append({"cli": path, "xpath": "", "reason": str(e)})
                 continue
@@ -255,6 +264,7 @@ def test_show_cli_schema_and_safeguard(
                         continue
 
                     logger.info("CLI: %s, XPATH: %s", cli, xpath)
+                    xpath_to_query = shlex.quote(xpath)
 
                     before_status = duthost.all_critical_process_status()
 
@@ -262,7 +272,7 @@ def test_show_cli_schema_and_safeguard(
                         duthost=duthost,
                         gnxi_path=gnxi_path,
                         method=METHOD_GET,
-                        xpath=xpath,
+                        xpath=xpath_to_query,
                         target="SHOW"
                     )
                     ptf_result = gnmi_get_with_retry(ptfhost, cmd)

@@ -125,7 +125,7 @@ def get_ipv6_neighbor(duthost):
 
 
 def get_ipv6_prefix(duthost):
-    return ["::/0"]
+    return ["::\/0"]
 
 
 def get_ipv6_bgp_neighbor_arguments(duthost):
@@ -141,7 +141,7 @@ def get_ipv6_bgp_network_arguments(duthost):
 
 
 def get_ipv6_route_arguments(duthost):
-    return ["bgp", "nexthop-group", "::/0"]
+    return ["bgp", "nexthop-group", "::\/0"]
 
 
 def get_interface_vlan(duthost):
